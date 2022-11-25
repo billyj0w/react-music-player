@@ -1,3 +1,8 @@
+# REACT MUSIC PLAYER
+## Project Site
+### [music-player.netlify.app](https://juse-music-player.netlify.app)
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
