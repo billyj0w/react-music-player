@@ -218,15 +218,33 @@ const AudioPlayer = () => {
         }
     }
 
+    const nextSong = () => {
+        // criando essa variavel vc resolve o problema de 
+        // assincronidade
+        const prevValue = isPlaying;
+        setIsPlaying(prevValue);
+        if (prevValue) {
+            audioPlayer.current.play();
+            animationRef.current = requestAnimationFrame(whilePlaying)
+        } else {
+            audioPlayer.current.pause();
+            cancelAnimationFrame(animationRef.current);
+        }
+    }
+
     const changeSong = (e) => {
         setIndex(e.target.value)
         console.log(e.target.value)
     }
 
     useEffect(()=>{
-        setCurrentSong(songList[index].fileUrl)
-        setIsPlaying(false);
+        setCurrentSong(songList[index].fileUrl)    
+        nextSong() 
     }, [index])
+
+    useEffect(()=>{
+        nextSong() 
+    }, [currentSong])
 
     return (
         <div className='wrapper'>
@@ -252,13 +270,13 @@ const AudioPlayer = () => {
                 <ul>
                     {songList.map((songs, index) => {
                         return (
-                            <div className='songItem' >
-                                <p>{songList.index}</p>
+                            <div className={`songItem ${currentSong == songs.fileUrl ? 'active' : ''}`}
+                            >                       
                                 <li 
                                     key={songs.title}
                                     value={index} onClick={changeSong}
                                     >
-                                    {songs.title} 
+                                    {index} - {songs.title} 
                                 </li>
                                 <p><span>Artist:</span> {songs.artistName}</p>
                                 <p><span>Album: </span>{songs.albumTitle}</p>
